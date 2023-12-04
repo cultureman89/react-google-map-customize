@@ -1,9 +1,6 @@
 Google Map React Demo
 =====================
 
-[View live demo](https://kishan-mundha.firebaseapp.com/google-map-react-demo/)
-
-
 ### Library used in project
 - Material UI (https://material-ui.com)
 - Redux
