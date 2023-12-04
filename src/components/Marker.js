@@ -3,29 +3,23 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PlaceIcon from '@material-ui/icons/Place';
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
 import { SET_SELECTED_PLACE, SET_HOVER_PLACE } from '../reducers/MapAction';
 
 const styles = {
   popup: {
     position: 'absolute',
-    top: -120,
-    left: -110,
+    marginTop: '100px',
+    left: 5,
     width: 300,
     zIndex: 1000,
-    opacity: 0,
+    opacity: 100,
+    overflow: 'scroll',
+    cursor: 'pointer',
     '&:before': {
       content: "' '", //eslint-disable-line
       position: 'absolute',
-      top: '100%',
-      left: '100px',
-      width: '0',
-      borderTop: '20px solid white',
-      borderLeft: '10px solid transparent',
-      borderRight: '10px solid transparent',
+      left: '0px',
     },
   },
 };
@@ -75,8 +69,10 @@ class Marker extends Component {
   };
 
   render() {
-    const { selected, place, hover, closePopup } = this.props;
+    const { place, hover } = this.props;
     const size = 'default';
+    console.log(place, '==========')
+
     return (
       <div>
         <PlaceIcon
@@ -85,30 +81,28 @@ class Marker extends Component {
             cursor: 'pointer',
             position: 'absolute',
             left: -10,
-            top: -24,
+            top: 0,
           }}
-          // color="secondary"
           fontSize={size}
           onMouseEnter={() => this.onHoverPlace(place)}
           onMouseLeave={() => this.onHoverPlace(null)}
-          // onClick={this.onSelectPlace}
         />
         {hover && (
           <div
             ref={(ref) => (this.popupRef = ref)}
             className={this.props.classes.popup}
+            onMouseEnter={() => this.onHoverPlace(place)}
+            onMouseLeave={() => this.onHoverPlace(null)}
+            onClick={() => alert('clicked')}
           >
-            <Paper style={{ padding: 8 }}>
-              <IconButton
-                title="Close"
-                style={{ float: 'right', width: 24, height: 24, padding: 0 }}
-                onClick={closePopup}
-              >
-                <CloseIcon style={{ fontSize: 12 }} />
-              </IconButton>
+            <div style={{ padding: 8, backgroundColor: 'white' }}>
+
               <Typography variant="subtitle2">{place.name}</Typography>
-              <Typography>{place.location.formattedAddress}</Typography>
-            </Paper>
+              <div>
+                <img src={place.backgroundImageURL} style={{ width: '30px', height: '30px', borderRadius: '30px', float: 'left'}} />
+                <Typography>{place.name}</Typography>
+              </div>
+            </div>
           </div>
         )}
       </div>
